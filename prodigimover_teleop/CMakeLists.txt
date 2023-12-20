@@ -11,10 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_python_setup()
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES prodigimover_teleop
-   CATKIN_DEPENDS geometry_msgs rospy
-#  DEPENDS system_lib
+  CATKIN_DEPENDS geometry_msgs rospy
 )
 
 catkin_install_python(PROGRAMS nodes/prodigimover_teleop_key
