@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="prodigimover_teleop" type="prodigimover_teleop_key" name="prodigimover_teleop" respawn="true" output="screen"/>
+</launch>

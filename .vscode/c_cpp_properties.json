@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/mechanical_engineering/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/imu_tools/imu_complementary_filter/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/imu_tools/imu_filter_madgwick/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/ipharobot_volume04/prodigimover_slam/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/linorobot/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/jetson_nano_bot/navstack_pub/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/n_move/neslihan_action/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/rosserial/rosserial_server/include/**",
+        "/home/mechanical_engineering/catkin_ws/src/rosserial/rosserial_test/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
