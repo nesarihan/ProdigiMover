@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:macro name="prodigimover_wheel" params="xyz_pose rpy_pose side1 side2">    
+
+    <link name='wheel_${side1}_${side2}_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <visual>
+        <origin xyz="0 0 0" rpy=" 0 0 1.570796"/>
+        <geometry>
+          <mesh filename="package://prodigimover_description/meshes/ProdigiMover_Wheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>	 
+      <collision>
+        <origin xyz="0 0 0" rpy="0 1.570796 0 "/>
+        <geometry>
+          <cylinder radius="0.13" length="0.08"/>	  			  
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertial radius="0.13" length="0.08" mass="1.605"/>
+    </link>
+
+    <joint name="wheel_${side1}_${side2}_base" type="continuous">
+      <origin xyz="${xyz_pose}" rpy="${rpy_pose}"/>
+      <parent link="base_link"/>
+      <child link="wheel_${side1}_${side2}_link"/>        
+      <joint_properties damping="0.1" friction="0.1"/>
+    </joint> 
+
+    <gazebo reference="wheel_${side1}_${side2}_link">
+      <material value="Gazebo/FlatBlack"/>
+      <mu1>1.16</mu1>
+      <mu2>1.16</mu2>
+      <kp>5000000.0</kp>
+      <kd>10.0</kd>
+      <maxVel>4.0</maxVel>
+      <fdir1>0 0 0</fdir1>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>     
+
+  <!-- Transmission is important to link the joints and the controller -->
+    <transmission name="wheel_${side1}_${side2}_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wheel_${side1}_${side2}_base"/>
+      <actuator name="wheel_${side1}_${side2}_base_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+ </robot>

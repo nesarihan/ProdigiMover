@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="prodigimover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_base.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_inertia.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_wheel.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_lidar.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_camera.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_imu.xacro" />
+    <xacro:include filename="$(find prodigimover_description)/urdf/prodigimover_skid_steer.xacro" />
+
+    <!-- Chassis -->
+    <xacro:prodigimover_base />
+
+    <!-- Wheels -->
+    <xacro:prodigimover_wheel xyz_pose="0.29462 -0.163 0.0" rpy_pose="-1.570796 0 0" side1="right" side2="front" />
+    <xacro:prodigimover_wheel xyz_pose="-0.29462 -0.163 0.0" rpy_pose="-1.570796 0 0" side1="left" side2="front" />
+    <xacro:prodigimover_wheel xyz_pose="0.29462 0.163 0.0" rpy_pose="-1.570796 0 0" side1="right" side2="back" />
+    <xacro:prodigimover_wheel xyz_pose="-0.29462 0.163 0.0" rpy_pose="-1.570796 0 0" side1="left" side2="back" />
+
+    <!-- LIDAR -->
+    <xacro:prodigimover_lidar />
+
+    <!-- Camera -->
+    <xacro:prodigimover_zed_camera />
+
+    <!-- IMU Sensor-->
+    <xacro:prodigimover_imu />
+
+    <!-- Skid Steer Plugin-->
+    <xacro:prodigimover_skid_steer />
+
+    <!-- Joints plugin -->
+    <xacro:prodigimover_joints_state_publisher />
+
+
+</robot>

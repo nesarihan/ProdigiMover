@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="prodigimover_base">
+        <!-- Robot center to the ground -->
+        <link name="robot_footprint" >
+            <pose>0 0 0 0 0 0</pose>
+        </link>
+        
+        <link name="base_link">
+            <pose>0 0 0.1 0 0 0</pose>
+            <visual>
+                <origin xyz="0 0 0.122405" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://prodigimover_description/meshes/ProdigiMover_Base.stl" scale="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.122405" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.66602 0.72288 0.36481" />
+                </geometry>
+            </collision>
+            <xacro:box_inertial x="0.66602" y="0.72288" z="0.36481" mass="10.0" />
+        </link>
+
+        <joint name="base_joint" type="fixed" >
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="robot_footprint" />
+            <child link="base_link" />
+        </joint>
+
+        <!-- Base(Chassis)-->
+        <gazebo reference="base_link">
+            <material value="Gazebo/Blue" />
+        </gazebo>
+    </xacro:macro>
+</robot>
