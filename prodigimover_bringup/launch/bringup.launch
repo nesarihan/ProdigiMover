@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- ROS communication between Raspberry Pi 4 and Arduino Mega (ProdigiMover Base)-->
+    <node pkg="rosserial_python" type="serial_node.py" name="rosserial_prodigimover" output="screen">
+        <param name="port" value="/dev/prodigimover"/>
+        <param name="baud" value="57600"/>                
+    </node>
+
+    <!--IMU Relay and Filter-->
+    <include file="$(find prodigimover_bringup)/launch/imu.launch"/>
+
+    <!--Publish ProdigiMover Odometry-->
+    <node name="prodigimover_base_node" pkg="prodigimover_bringup" type="prodigimover_base_node"/>
+    
+    <!--Publish static transform from robot_footprint to base_link-->
+    <node name="robot_footprint_to_base_link" pkg="tf2_ros" type="static_transform_publisher"  args="0 0 0.098 0 0 0  /robot_footprint /base_link" />
+        
+    <!--Odom-IMU Extended Kalman Filter-->
+    <node name="ekf_localization" pkg="robot_localization" type="ekf_localization_node" >
+        <remap from="odometry/filtered" to="odom"/>
+        <rosparam command="load" file="$(find prodigimover_bringup)/param/ekf_robot_localization.yaml"/>
+    </node>
+
+
+    
+
+</launch>
