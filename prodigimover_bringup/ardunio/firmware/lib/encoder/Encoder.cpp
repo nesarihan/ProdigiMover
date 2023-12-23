@@ -1,4 +1,3 @@
-
 #include "Encoder.h"
 
 // Yes, all the code is in the header file, to provide the user
@@ -6,5 +5,3 @@
 // to facilitate some crafty optimizations!
 
 Encoder_internal_state_t * Encoder::interruptArgs[];
-
-

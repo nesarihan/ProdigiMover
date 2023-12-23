@@ -23,7 +23,7 @@
 
 #include <Wire.h>
 
-#include "imu_configuration.h"
+#include "imu_config.h"
 #include "prodigimover_base_config.h"
 #include "Encoder.h"
 #include "Motor.h"
