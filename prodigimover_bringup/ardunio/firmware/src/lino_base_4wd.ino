@@ -1,3 +1,32 @@
+/*
+ Copyright (c) 2016, Juan Jimeno
+
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+ this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of  nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific
+ prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ */
 #if (ARDUINO >= 100)
 #include <Arduino.h>
 #else
@@ -7,13 +36,13 @@
 #include <ros.h>
 
 //header file for publishing velocities for odom
-#include <prodigimover_msgs/Velocities.h>
+#include <lino_msgs/Velocities.h>
 
 //header file for cmd_subscribing to "cmd_vel"
 #include <geometry_msgs/Twist.h>
 
 //header file for pid server
-#include <prodigimover_msgs/PID.h>
+#include <lino_msgs/PID.h>
 
 //header files for imu
 #include <ros_arduino_msgs/RawImu.h>
@@ -24,7 +53,7 @@
 #include <Wire.h>
 
 #include "imu_configuration.h"
-#include "prodigimover_base_config.h"
+#include "lino_base_config.h"
 #include "Encoder.h"
 #include "Motor.h"
 #include "Kinematics.h"
@@ -37,14 +66,14 @@
 #define COMMAND_RATE 10 //hz
 #define DEBUG_RATE 5
 
-/*#ifdef L298_DRIVER
+#ifdef L298_DRIVER
   //left side motors
   Motor motor1(MOTOR1_PWM, MOTOR1_IN_A, MOTOR1_IN_B); //front
   Motor motor3(MOTOR3_PWM, MOTOR3_IN_A, MOTOR3_IN_B);// rear
   //right side motors
   Motor motor2(MOTOR2_PWM, MOTOR2_IN_A, MOTOR2_IN_B); // front
   Motor motor4(MOTOR4_PWM, MOTOR4_IN_A, MOTOR4_IN_B); // rear
-#endif*/
+#endif
 
 #ifdef BTS7960_DRIVER
   //left side motors
@@ -66,7 +95,7 @@ Encoder motor3_encoder(MOTOR3_ENCODER_A,MOTOR3_ENCODER_B); //rear
 Encoder motor2_encoder(MOTOR2_ENCODER_A,MOTOR2_ENCODER_B); //front
 Encoder motor4_encoder(MOTOR4_ENCODER_A,MOTOR4_ENCODER_B); //rear
 
-Kinematics kinematics(MAX_RPM, WHEEL_DIAMETER, FR_WHEELS_DIST, LR_WHEELS_DIST, PWM_BITS);
+Kinematics kinematics(MAX_RPM, WHEEL_DIAMETER, BASE_WIDTH, PWM_BITS);
 
 PID motor1_pid(-255, 255, K_P, K_I, K_D);
 PID motor2_pid(-255, 255, K_P, K_I, K_D);
@@ -88,17 +117,17 @@ char g_buffer[50];
 
 //callback function prototypes
 void commandCallback(const geometry_msgs::Twist& cmd_msg);
-void PIDCallback(const prodigimover_msgs::PID& pid);
+void PIDCallback(const lino_msgs::PID& pid);
 
 ros::NodeHandle nh;
 
 ros::Subscriber<geometry_msgs::Twist> cmd_sub("cmd_vel", commandCallback);
-ros::Subscriber<prodigimover_msgs::PID> pid_sub("pid", PIDCallback);
+ros::Subscriber<lino_msgs::PID> pid_sub("pid", PIDCallback);
 
 ros_arduino_msgs::RawImu raw_imu_msg;
 ros::Publisher raw_imu_pub("raw_imu", &raw_imu_msg);
 
-prodigimover_msgs::Velocities raw_vel_msg;
+lino_msgs::Velocities raw_vel_msg;
 ros::Publisher raw_vel_pub("raw_vel", &raw_vel_msg);
 
 void setup()
@@ -114,7 +143,7 @@ void setup()
   {
     nh.spinOnce();
   }
-  nh.loginfo("PRODIGIMOVER_BASE CONNECTED");
+  nh.loginfo("LINOBASE CONNECTED");
 
   Wire.begin();
   delay(5);
@@ -171,9 +200,9 @@ void loop()
   nh.spinOnce();
 }
 
-void PIDCallback(const prodigimover_msgs::PID& pid)
+void PIDCallback(const lino_msgs::PID& pid)
 {
-  //callback function every time PID constants are received from pid for tuning
+  //callback function every time PID constants are received from lino_pid for tuning
   //this callback receives pid object where P,I, and D constants are stored
   motor1_pid.updateConstants(pid.p, pid.i, pid.d);
   motor2_pid.updateConstants(pid.p, pid.i, pid.d);

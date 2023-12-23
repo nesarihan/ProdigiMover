@@ -25,8 +25,8 @@
 #define COUNTS_PER_REV 1550       // wheel encoder's no of ticks per rev
 #define WHEEL_DIAMETER 0.33      // wheel's diameter in meters
 #define PWM_BITS 8                // PWM Resolution of the microcontroller
-#define LR_WHEELS_DISTANCE 0.235  // distance between left and right wheels
-#define FR_WHEELS_DISTANCE 0.30   // distance between front and rear wheels. Ignore this if you're on 2WD/ACKERMANN
+#define LR_WHEELS_DIST 0.235  // distance between left and right wheels
+#define FR_WHEELS_DIST 0.30   // distance between front and rear wheels. Ignore this if you're on 2WD/ACKERMANN
 
 //=================BIGGER ROBOT SPEC (BTS7960)=============================
 // #define K_P 0.05  // P constant
