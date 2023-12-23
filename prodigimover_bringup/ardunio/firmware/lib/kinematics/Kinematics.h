@@ -30,53 +30,42 @@
 
 #include "Arduino.h"
 
-#define RPM_TO_RPS 1/60
-
 class Kinematics
 {
-    public:
-        enum base {DIFFERENTIAL_DRIVE, SKID_STEER, ACKERMANN, ACKERMANN1, MECANUM};
+  public:
+    struct output
+    {
+      int motor1;
+      int motor2;
+      int motor3;
+      int motor4;
+    };
+    struct velocities
+    {
+      float linear_x;
+      float linear_y;
+      float angular_z;
+    };
+    Kinematics(int motor_max_rpm, float wheel_diameter, float fr_wheels_dist, float lr_wheels_dist, int pwm_bits);
+    velocities getVelocities(int motor1, int motor2);
+    velocities getVelocities(int motor1, int motor2, int motor3, int motor4);
+    output getRPM(float linear_x, float linear_y, float angular_z);
+    output getPWM(float linear_x, float linear_y, float angular_z);
+    int rpmToPWM(int rpm);
 
-        base base_platform;
-
-        struct rpm
-        {
-            int motor1;
-            int motor2;
-            int motor3;
-            int motor4;
-        };
-        
-        struct velocities
-        {
-            float linear_x;
-            float linear_y;
-            float angular_z;
-        };
-
-        struct pwm
-        {
-            int motor1;
-            int motor2;
-            int motor3;
-            int motor4;
-        };
-
-        Kinematics(base robot_base, int motor_max_rpm, float wheel_diameter, float wheels_x_distance, float wheels_y_distance);
-        velocities getVelocities(float steering_angle, int rpm1, int rpm2);
-        velocities getVelocities(int rpm1, int rpm2, int rpm3, int rpm4);
-        rpm getRPM(float linear_x, float linear_y, float angular_z);
-
-    private:
-        rpm calculateRPM(float linear_x, float linear_y, float angular_z);
-        int getTotalWheels(base robot_base);
-
-        int max_rpm_;
-        float wheels_x_distance_;
-        float wheels_y_distance_;
-        float pwm_res_;
-        float wheel_circumference_;
-        int total_wheels_;
+  private:
+    float linear_vel_x_mins_;
+    float linear_vel_y_mins_;
+    float angular_vel_z_mins_;
+    float circumference_;
+    float tangential_vel_;
+    float x_rpm_;
+    float y_rpm_;
+    float tan_rpm_;
+    int max_rpm_;
+    float fr_wheels_dist_;
+    float lr_wheels_dist_;
+    float pwm_res_;
 };
 
 #endif

@@ -64,7 +64,7 @@ ROBOT ORIENTATION
 #define MOTOR4_ENCODER_B 21
 
 //MOTOR PINS
-#ifdef USE_L298_DRIVER
+/*#ifdef USE_L298_DRIVER
   #define MOTOR_DRIVER L298
 
   #define MOTOR1_PWM 8
@@ -85,7 +85,7 @@ ROBOT ORIENTATION
 
   #define PWM_MAX pow(2, PWM_BITS) - 1
   #define PWM_MIN -PWM_MAX
-#endif 
+#endif */
 
 #ifdef USE_BTS7960_DRIVER
   #define MOTOR_DRIVER BTS7960  
