@@ -1,22 +1,27 @@
-#ifndef MOTOR_H
-#define MOTOR_H
+#ifndef Motor_h
+#define Motor_h
 
-#include <Servo.h> 
-#include <Arduino.h>
+#include "Arduino.h"
 
-class Controller
+class Motor
 {
-    public:
-        enum driver {L298, BTS7960, ESC};
-        Controller(driver motor_driver, int pwm_pin, int motor_pinA, int motor_pinB);
-        void spin(int pwm);
+  public:
+    int rpm;
+    static int counts_per_rev_;
 
-    private:
-        Servo motor_;
-        driver motor_driver_;
-        int pwm_pin_;
-        int motor_pinA_;
-        int motor_pinB_;
-};
+    Motor(int pwm_pin, int motor_pinA, int motor_pinB);
+    Motor(int motor_pinA, int motor_pinB);
+    void updateSpeed(long encoder_ticks);
+    void spin(int pwm);
+
+  private:
+    enum driver_ {L298, BTS7960};
+    driver_ motor_driver_;
+    long prev_encoder_ticks_;
+    unsigned long prev_update_time_;
+    int pwm_pin_;
+    int motor_pinA_;
+    int motor_pinB_;
+  };
 
 #endif
